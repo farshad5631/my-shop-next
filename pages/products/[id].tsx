@@ -6,7 +6,6 @@ import {
 } from "../../utils/localStorage";
 import Layout from "../../components/Layout";
 import { Product, CartItem } from "../../types";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInstance } from "../../api";
@@ -51,9 +50,8 @@ const ProductPage = () => {
         .get(`/products/${productId}`)
         .then((response) => {
           setProduct(response.data);
-          setMainImage(response.data.images[0]); // Set initial main image
+          setMainImage(response.data.images[0]); 
 
-          // Fetch related products
           const categoryId = response.data.category.id;
           return axiosInstance.get(
             `/categories/${categoryId}/products`
@@ -62,7 +60,7 @@ const ProductPage = () => {
         .then((response) => {
           setRelatedProducts(
             response.data.filter((item: Product) => item.id !== productId)
-          ); // Exclude current product from related products
+          ); 
         })
         .catch((error) =>
           console.error("Error fetching product or related products:", error)
@@ -126,7 +124,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      {/* Related Products */}
+      
       <div className="p-4 mt-6">
         <h2 className="text-2xl mb-4">Related Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

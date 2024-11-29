@@ -70,7 +70,7 @@ const HomePage = () => {
 
     setFilteredProducts(filtered.products);
     setTotalProducts(filtered.total);
-    setCurrentPage(1); // Reset to the first page after filtering
+    setCurrentPage(1); 
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

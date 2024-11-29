@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getLocalStorageItem } from "../utils/localStorage";
 import { Order } from "../types";
 
 const OrderHistory = () => {
