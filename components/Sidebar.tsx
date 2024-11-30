@@ -32,12 +32,12 @@ const Sidebar = ({ onFilter }: any) => {
     <div className="p-4 w-1/5 bg-gray-100 dark:bg-slate-800">
       <h2 className="text-xl font-bold mb-4">Filters</h2>
 
-      <div className="mb-4">
+      <div className="mb-4 dark:bg-gray-800 dark:text-white">
         <h3 className="text-lg font-semibold">Category</h3>
         {categories.map((category) => (
-          <div
+          <div 
             key={category.id}
-            className={`p-2 cursor-pointer ${
+            className={`p-2 cursor-pointer  dark:bg-slate-800 dark:text-white ${
               selectedCategory === category.id
                 ? "bg-blue-500 text-white border-b-2 border-blue-700"
                 : "bg-white text-black"

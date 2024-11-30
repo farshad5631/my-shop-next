@@ -8,6 +8,8 @@ import {
   setLocalStorageItem,
 } from "../utils/localStorage";
 import Sidebar from "../components/Sidebar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -53,7 +55,7 @@ const HomePage = () => {
     }
 
     setLocalStorageItem("cart", cart);
-    alert(`${product.title} has been added to your cart.`);
+    toast.success(`${product.title} added to your cart successfully!`);
   };
 
   const handleFilter = async (filters: any) => {
@@ -70,7 +72,7 @@ const HomePage = () => {
 
     setFilteredProducts(filtered.products);
     setTotalProducts(filtered.total);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,9 +96,10 @@ const HomePage = () => {
   return (
     <Layout>
       <div className="flex flex-col items-center p-4 dark:bg-slate-800 dark:text-white">
+        <ToastContainer />
         <div className="flex w-full">
           <Sidebar onFilter={handleFilter} />
-          <div className="flex-grow p-4">
+          <div className="flex-grow p-4 w-4/5">
             <div className="flex flex-row justify-center space-x-40">
               <h1 className="text-2xl mb-6">Products</h1>
               <div className="w-full max-w-lg mb-2">
@@ -118,17 +121,22 @@ const HomePage = () => {
                       alt={product.title}
                       className="w-full h-auto cursor-pointer rounded-t-2xl"
                     />
-                    <h2 className="text-xl mt-4 cursor-pointer">
+                    <h2 className="flex text-xl mt-4 cursor-pointer justify-center">
                       {product.title}
                     </h2>
                   </Link>
-                  <p className="mt-2">${product.price}</p>
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-2 bg-blue-500 text-white p-2 rounded"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="p-4">
+                    <p className="mt-2 line-through text-red-500">
+                      Price: ${product.price * 1.5}{" "}
+                    </p>
+                    <p className="mt-2">Price: ${product.price} </p>
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="mt-2 bg-blue-500 text-white p-2 rounded"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
