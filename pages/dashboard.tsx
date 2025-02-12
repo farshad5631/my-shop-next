@@ -32,6 +32,7 @@ const DashboardPage = () => {
         <h1 className="text-2xl mb-6">
           Welcome, {user.name} 
         </h1>
+        <img src={user.avatar} alt="" />
         <h2 className="text-xl mb-4">Your Order History</h2>
         {orders.length === 0 ? (
           <p>No orders found.</p>

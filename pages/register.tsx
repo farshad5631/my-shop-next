@@ -26,7 +26,7 @@ const RegisterPage = () => {
       users.push(formData);
       localStorage.setItem("users", JSON.stringify(users));
 
-      alert(response.message); 
+      alert(response.message);
       router.push("/login");
     } catch (error: any) {
       if (error.message) {
@@ -58,9 +58,7 @@ const RegisterPage = () => {
             required
           />
         </div>
-        
-        
-        
+
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -112,12 +110,21 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Register
-        </button>
+        <div className="flex justify-between">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Register
+          </button>
+          <button
+            type="button"
+            onClick={() => router.push("/login")}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Back to Login
+          </button>
+        </div>
       </form>
     </div>
   );

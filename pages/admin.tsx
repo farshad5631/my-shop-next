@@ -4,13 +4,9 @@ import { User, Order } from "../types";
 import { useRouter } from "next/router";
 
 const AdminDashboardPage = () => {
-  const [allUsersOrders, setAllUsersOrders] = useState<
-    { user: User; order: Order }[]
-  >([]);
+  const [allUsersOrders, setAllUsersOrders] = useState<{ user: User; order: Order }[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredOrders, setFilteredOrders] = useState<
-    { user: User; order: Order }[]
-  >([]);
+  const [filteredOrders, setFilteredOrders] = useState<{ user: User; order: Order }[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,16 +31,11 @@ const AdminDashboardPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     const term = e.target.value.toLowerCase();
-    const filtered = allUsersOrders.filter(({ user, order }) => {
-      const userName =
-        typeof user.name === "string" ? user.name.toLowerCase() : "";
-      
-      const orderItems = order.items.some(
-        (item) =>
-          typeof item.title === "string" &&
-          item.title.toLowerCase().includes(term)
+    const filtered = allUsersOrders.filter(({ order }) => {
+      return order.items.some(item =>
+        typeof item.title === "string" &&
+        item.title.toLowerCase().includes(term)
       );
-      return userName.includes(term) || orderItems;
     });
     setFilteredOrders(filtered);
   };
@@ -54,9 +45,7 @@ const AdminDashboardPage = () => {
     if (filter === "All") {
       setFilteredOrders(allUsersOrders);
     } else {
-      const filtered = allUsersOrders.filter(({ order }) => {
-        return order.status === filter;
-      });
+      const filtered = allUsersOrders.filter(({ order }) => order.status === filter);
       setFilteredOrders(filtered);
     }
   };
@@ -74,7 +63,7 @@ const AdminDashboardPage = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center min-h-screen py-2 dark:bg-blue-900 dark:text-white">
+      <div className="flex flex-col items-center justify-center min-h-screen py-2 dark:bg-slate-900 dark:text-white">
         <h1 className="text-2xl mb-6">Admin Dashboard</h1>
         <input
           type="text"
@@ -93,7 +82,7 @@ const AdminDashboardPage = () => {
           <option value="Shipped">Shipped</option>
           <option value="Cancelled">Cancelled</option>
         </select>
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-white dark:bg-slate-900 dark:text-white">
           <thead>
             <tr>
               <th className="py-2">Order Name</th>
@@ -109,24 +98,15 @@ const AdminDashboardPage = () => {
                 <td className="border px-4 py-2">
                   {order.items.map((item) => item.title).join(", ")}
                 </td>
-                <td className="border px-4 py-2">{`${user.name} `}</td>
+                <td className="border px-4 py-2">{user.name}</td>
                 <td className="border px-4 py-2">
                   {new Date(order.timestamp).toLocaleDateString()}
                 </td>
                 <td className="border px-4 py-2">
-                  $
-                  {order.items
-                    .reduce(
-                      (total, item) => total + item.price * item.quantity,
-                      0
-                    )
-                    .toFixed(2)}
+                  ${order.items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
                 </td>
                 <td className="border px-4 py-2">
-                  {order.items.reduce(
-                    (total, item) => total + item.quantity,
-                    0
-                  )}
+                  {order.items.reduce((total, item) => total + item.quantity, 0)}
                 </td>
               </tr>
             ))}

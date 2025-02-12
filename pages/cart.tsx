@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { CartItem } from "../types";
 import Layout from "../components/Layout";
 import { toast, ToastContainer } from "react-toastify";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
@@ -88,7 +90,7 @@ const CartPage = () => {
     localStorage.removeItem("cart");
     toast.success(`Your order has been added to the order histories!`);
 
-    window.location.href = "/";
+    router.push("/");
   };
 
   const totalPrice = cartItems.reduce(

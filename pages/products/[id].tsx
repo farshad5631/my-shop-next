@@ -9,6 +9,7 @@ import { Product, CartItem } from "../../types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInstance } from "../../api";
+import Link from "next/link";
 
 const ProductPage = () => {
   const router = useRouter();
@@ -50,17 +51,15 @@ const ProductPage = () => {
         .get(`/products/${productId}`)
         .then((response) => {
           setProduct(response.data);
-          setMainImage(response.data.images[0]); 
+          setMainImage(response.data.images[0]);
 
           const categoryId = response.data.category.id;
-          return axiosInstance.get(
-            `/categories/${categoryId}/products`
-          );
+          return axiosInstance.get(`/categories/${categoryId}/products`);
         })
         .then((response) => {
           setRelatedProducts(
             response.data.filter((item: Product) => item.id !== productId)
-          ); 
+          );
         })
         .catch((error) =>
           console.error("Error fetching product or related products:", error)
@@ -81,7 +80,7 @@ const ProductPage = () => {
   return (
     <Layout>
       <ToastContainer />
-      <div className="flex flex-row gap-10 p-4 dark:bg-blue-900 dark:text-white">
+      <div className="flex flex-row gap-10 p-4 dark:bg-slate-800 dark:text-white">
         <div className="relative w-1/3 h-auto m-8">
           <img
             src={mainImage}
@@ -124,25 +123,33 @@ const ProductPage = () => {
         </div>
       </div>
 
-      
-      <div className="p-4 mt-6">
+      <div className="p-8 dark:bg-slate-900 dark:text-white">
         <h2 className="text-2xl mb-4">Related Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {relatedProducts.map((relatedProduct) => (
-            <div key={relatedProduct.id} className="border p-4">
-              <img
-                src={relatedProduct.images[0]}
-                alt={relatedProduct.title}
-                className="w-full h-auto"
-              />
-              <h3 className="text-xl mt-4">{relatedProduct.title}</h3>
-              <p className="mt-2">${relatedProduct.price}</p>
-              <button
-                onClick={() => router.push(`/products/${relatedProduct.id}`)}
-                className="mt-2 bg-blue-500 text-white p-2 rounded"
-              >
-                View Details
-              </button>
+            <div key={relatedProduct.id} className="border rounded-2xl">
+              <Link href={`/products/${relatedProduct.id}`}>
+                <img
+                  src={relatedProduct.images[0]}
+                  alt={relatedProduct.title}
+                  className="w-full h-auto cursor-pointer rounded-t-2xl"
+                />
+                <h2 className="flex text-xl mt-4 cursor-pointer justify-center">
+                  {relatedProduct.title}
+                </h2>
+              </Link>
+              <div className="p-4">
+                <p className="mt-2 line-through text-red-500">
+                  Price: ${relatedProduct.price * 1.5}{" "}
+                </p>
+                <p className="mt-2">Price: ${relatedProduct.price} </p>
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="mt-2 bg-blue-500 text-white p-2 rounded"
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           ))}
         </div>
